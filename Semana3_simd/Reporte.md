@@ -74,5 +74,5 @@ material de clases del curso *Computación Heterogénea*, impartido por el
 profesor Luis G. León-Vega, PhD.:
 
 **Fuente:** León-Vega, L. G. (2026). *Fundamentos de arquitecturas de CPU* 
-(Capítulo 1, pp. 41-42) [Material de clase]. Curso Computación Heterogénea, 
+(Capítulo 1, pp. 41-42) [Material de clase](https://github.com/kdsalazar95/Labs_CH/blob/feature/simd/Semana3_simd/Documentacion/Ley_Amdahl.pdf). Curso Computación Heterogénea, 
 Instituto Tecnológico de Costa Rica.
