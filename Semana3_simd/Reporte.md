@@ -64,8 +64,9 @@ $$S = \frac{T_1}{T_p} = \frac{9.666072}{2.848346} \approx 3.394$$
 Se utiliza n = 8, el cual corresponde a la constante `AVX_FLOATS` del código, que representa la cantidad de floats de 32 bits que caben en un registro `__m256` de 256 bits.
 
 Calculando la eficiencia:
+$$\eta = \frac{S}{n} = \frac{3.394}{8} \approx 0.424$$
 
-$$\eta = \frac{S}{n} = \frac{3.394}{8} \approx 0.424 \ (42.4\%)$$
+Esto equivale a una eficiencia del 42.4%.
 
 ## Referencia
 
