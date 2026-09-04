@@ -203,5 +203,5 @@ La menor escalabilidad de softmax_openmp puede relacionarse con la necesidad de 
 Las ecuaciones y conceptos utilizados para el analisis fueron consultados en el material de clases del curso *Computación Heterogénea*, impartido por el profesor Luis G. León-Vega, PhD.:
 
 **Fuente:** León-Vega, L. G. (2026). *Sistemas multiprocesador y su programación* 
-(Capítulo 2, pp. 55-86) [Material de clase](https://github.com/kdsalazar95/Labs_CH/blob/feature/simd/Semana3_simd/Documentacion/Ley_Amdahl.pdf). Curso Computación Heterogénea, 
+(Capítulo 2, pp. 55-86) [Material de clase](https://github.com/kdsalazar95/Labs_CH/blob/feature/multiprocessor/Semana4_multprocessor/Documentacion/Capitulo-2.pdf). Curso Computación Heterogénea, 
 Instituto Tecnológico de Costa Rica.
