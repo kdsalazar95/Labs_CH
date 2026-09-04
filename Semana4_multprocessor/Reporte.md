@@ -1,3 +1,5 @@
+# Reporte de los resultados
+
 ## Ejercicio A
 
 ```bash
@@ -14,6 +16,30 @@ time ./cpu-affinity
 # cpu-naive
 
 time ./cpu-naive
+
+```
+
+## Ejercicio B
+
+```bash
+# Ir al directorio
+
+cd scaling
+
+make
+
+#matmul_tiled_openmp
+
+# Para los hilos, dejar un espacio despues de la instruccion e indicar el numero (1, 2, 3, ...)
+
+./matmul_tiled_openmp
+
+#
+
+
+# Para los hilos, dejar un espacio despues de la instruccion e indicar el numero (1, 2, 3, ...)
+
+./softmax_openmp 
 ```
 ### Código
 
