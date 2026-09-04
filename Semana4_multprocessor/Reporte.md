@@ -15,22 +15,36 @@ time ./cpu-affinity
 
 time ./cpu-naive
 ```
-### Codigo
+### Código
 
-El total de hilos de la laptop es de 16, el programa esta paara 8 hilos, sin embargo para hacer el ejercicio con todos los 16 hilos se deben modificar estas 2 lineas
+La laptop cuenta con un total de **16 hilos**. Sin embargo, el programa está configurado inicialmente para utilizar 8 hilos. Para realizar las pruebas con diferentes cantidades de hilos, es necesario modificar las siguientes líneas del código:
 
-```bash
-9 #define NUM_THREADS 8 // se modifica el valor 8 por 1, 2, 3,...
-
-121 int cpu_map[NUM_THREADS] = {0, 1, 2, 3, 4, 5, 6, 7}; // se agregan los hilos 
-
+```c
+#define NUM_THREADS 8
 ```
 
+En esta línea se cambia el valor de `8` por la cantidad de hilos que se desea utilizar, por ejemplo `1`, `2`, `3`, ..., `16`.
 
-## Resultados
+Además, se debe actualizar el arreglo que indica los hilos disponibles:
 
-Hilos en total: 16
+```c
+int cpu_map[NUM_THREADS] = {0, 1, 2, 3, 4, 5, 6, 7};
+```
 
+Para utilizar más hilos, se agregan los identificadores correspondientes. Por ejemplo, para 16 hilos:
+
+```c
+int cpu_map[NUM_THREADS] = {
+    0, 1, 2, 3, 4, 5, 6, 7,
+    8, 9, 10, 11, 12, 13, 14, 15
+};
+```
+
+De esta forma, se pueden realizar las pruebas utilizando desde 1 hasta 16 hilos.
+
+### Resultados
+
+**Hilos totales disponibles:** 16
 
 
 ### Ejercicio A — cpu-affinity
@@ -162,8 +176,32 @@ $$S(N) = \frac{1}{(1-p) + \frac{p}{N}}$$
 
 ## Analisis de los resultados
 
-### Ejercicio A
+
+### Ejercicio A — `cpu-affinity` vs `cpu-naive`
+
+Los resultados muestran que `cpu-affinity` presenta un mejor comportamiento que `cpu-naive` a medida que aumenta la cantidad de hilos. Con 16 hilos, `cpu-affinity` obtiene un tiempo de 4.181 s, mientras que `cpu-naive` alcanza 5.545 s.
+
+Esta diferencia puede relacionarse con el uso de thread affinity, que permite mantener los hilos asociados a determinados núcleos y reducir las migraciones entre ellos. Estas migraciones pueden provocar pérdidas de caché y afectar el rendimiento (León-Vega, 2026).
+
+En ambos casos, el speedup disminuye conforme aumenta el número de hilos. Esto ocurre porque cada hilo realiza su propia carga de cpu burn; por lo tanto, agregar más hilos no divide un mismo trabajo para terminarlo más rápido. En su lugar, aumenta la competencia por los recursos del procesador. Esto se observa claramente en cpu-naive, donde el speedup disminuye de 1.00 con un hilo a 0.43 con 16 hilos.
+
+La eficiencia también disminuye rápidamente. Tomando como referencia el 50 % de eficiencia utilizado para analizar el escalamiento, `cpu-affinity` se encuentra por debajo de este valor desde los 2 hilos, mientras que `cpu-`naive` lo hace también desde los 2 hilos, con 47.1 %. Por lo tanto, aumentar la cantidad de hilos no resulta beneficioso para esta carga de trabajo (León-Vega, 2026).
+
+### Ejercicio B — `matmul_tiled_openmp` y `softmax_openmp`
+
+En `matmul_tiled_openmp` se observa un mejor aprovechamiento del paralelismo. El speedup aumenta hasta 4.66 con 8 hilos, con una eficiencia de 58.2 %. A partir de 9 hilos se presenta una caída importante, donde la eficiencia baja a 28.8 %. Aunque el rendimiento vuelve a mejorar gradualmente con más hilos, la eficiencia permanece por debajo del 50 %.
+
+El comportamiento hasta 8 hilos puede relacionarse con el uso de tiling, que favorece la reutilización de datos y el aprovechamiento de la caché. Después de este punto, la competencia por los recursos disponibles puede limitar el beneficio de agregar más hilos (León-Vega, 2026).
+
+En `softmax_openmp`, el comportamiento es diferente. El speedup mejora desde 1 hasta 6 hilos, alcanzando un máximo de 1.88, pero a partir de 7 hilos comienza a disminuir. Con 16 hilos incluso se obtiene un speedup de 0.85, es decir, un tiempo mayor que con un solo hilo.
+
+La menor escalabilidad de softmax_openmp puede relacionarse con la necesidad de realizar una reducción para obtener la suma utilizada en la normalización. Esta operación requiere coordinación entre los hilos, lo que limita el beneficio de aumentar su cantidad. A partir de 4 hilos, la eficiencia ya se encuentra por debajo del 50 %, por lo que el aumento de hilos deja de ser conveniente según este criterio (León-Vega, 2026).
+
+### Referencia
 
 
-### Ejercicio B
+Las ecuaciones y conceptos utilizados para el analisis fueron consultados en el material de clases del curso *Computación Heterogénea*, impartido por el profesor Luis G. León-Vega, PhD.:
 
+**Fuente:** León-Vega, L. G. (2026). *Sistemas multiprocesador y su programación* 
+(Capítulo 2, pp. 55-86) [Material de clase](https://github.com/kdsalazar95/Labs_CH/blob/feature/simd/Semana3_simd/Documentacion/Ley_Amdahl.pdf). Curso Computación Heterogénea, 
+Instituto Tecnológico de Costa Rica.
