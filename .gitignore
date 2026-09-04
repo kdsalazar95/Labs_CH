@@ -1,0 +1,11 @@
+# Ejecutables compilados
+plot_tiempos
+cpu-affinity
+cpu-naive
+softmax_openmp
+matmul_tiled_openmp
+build/
+
+# Formatos
+*.o
+*.out
